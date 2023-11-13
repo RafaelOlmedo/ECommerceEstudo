@@ -7,11 +7,11 @@ namespace ECommerce.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProdutoController : ControllerBase
+    public class ProdutosController : ControllerBase
     {
         private readonly IProdutoRepository _produtoRepository;
 
-        public ProdutoController(IProdutoRepository produtoRepository)
+        public ProdutosController(IProdutoRepository produtoRepository)
         {
            _produtoRepository = produtoRepository;
         }
@@ -25,13 +25,10 @@ namespace ECommerce.API.Controllers
         {
             var todosProdutos = _produtoRepository.RecuperaTodos();
 
-            if (todosProdutos.Count() == 0)
-                return NoContent();
+            if (!todosProdutos.Any())
+                return NotFound();
 
-            List<ProdutoViewModel> produtosViewModel = new List<ProdutoViewModel>();
-
-            foreach (var produto in todosProdutos)
-                produtosViewModel.Add(produto);
+            var produtosViewModel = ProdutoViewModel.ConverteListaDeProdutoEmListaProdutoViewModel(todosProdutos);
 
             return Ok(produtosViewModel);
         }

@@ -21,5 +21,15 @@ namespace ECommerce.API.ViewModels
                 Id = produto.Id,
                 Preco = produto.Preco
             };
+
+        public static IEnumerable<ProdutoViewModel> ConverteListaDeProdutoEmListaProdutoViewModel(IEnumerable<Produto> produtos)
+        {
+            var produtosViewModel = new List<ProdutoViewModel>();
+
+            foreach (var produto in produtos)
+                produtosViewModel.Add(produto);
+
+            return produtosViewModel;
+        }
     }
 }

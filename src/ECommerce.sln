@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{06FD8963
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Infra.Data.EntityFramework", "ECommerce.Infra.Data.EntityFramework\ECommerce.Infra.Data.EntityFramework.csproj", "{44CD84BF-0F35-43EF-A629-EFE01750E38E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Infra.IoC", "ECommerce.Infra.IoC\ECommerce.Infra.IoC.csproj", "{B4778834-5B82-4AE8-BF81-A9115962E964}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{44CD84BF-0F35-43EF-A629-EFE01750E38E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44CD84BF-0F35-43EF-A629-EFE01750E38E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44CD84BF-0F35-43EF-A629-EFE01750E38E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4778834-5B82-4AE8-BF81-A9115962E964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4778834-5B82-4AE8-BF81-A9115962E964}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4778834-5B82-4AE8-BF81-A9115962E964}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4778834-5B82-4AE8-BF81-A9115962E964}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +47,7 @@ Global
 		{674C574A-1E7F-4BEB-93E6-37C5EFA643E0} = {B967C1D9-C328-4850-8471-9E6A7DC00FB4}
 		{CBE0AB70-9538-40EF-9DCB-FBFF5B8A6B6C} = {C3733FF8-116B-41DC-9674-D7FBF0E2792A}
 		{44CD84BF-0F35-43EF-A629-EFE01750E38E} = {06FD8963-8CA5-410C-B3F8-39A134E1354D}
+		{B4778834-5B82-4AE8-BF81-A9115962E964} = {06FD8963-8CA5-410C-B3F8-39A134E1354D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {306A170E-5E6C-4349-85FA-285FC2C7A1FC}
