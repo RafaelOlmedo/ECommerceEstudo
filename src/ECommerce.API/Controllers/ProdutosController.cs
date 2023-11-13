@@ -1,5 +1,6 @@
 ﻿using ECommerce.API.InputModels;
 using ECommerce.API.ViewModels;
+using ECommerce.Domain.Entities;
 using ECommerce.Domain.Interfaces.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,22 +24,37 @@ namespace ECommerce.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var todosProdutos = _produtoRepository.RecuperaTodos();
+            try
+            {
+                var todosProdutos = _produtoRepository.RecuperaTodos();
 
-            if (!todosProdutos.Any())
-                return NotFound();
+                if (!todosProdutos.Any())
+                    return NotFound();
 
-            var produtosViewModel = ProdutoViewModel.ConverteListaDeProdutoEmListaProdutoViewModel(todosProdutos);
+                var produtosViewModel = ProdutoViewModel.ConverteListaDeProdutoEmListaProdutoViewModel(todosProdutos);
 
-            return Ok(produtosViewModel);
+                return Ok(produtosViewModel);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ocorreu um erro interno ao realizar o 'Get'. Retorno: {ex.Message}.");
+            }            
         }
 
         [HttpPost]
         public IActionResult Post(ProdutoInputModel produtoInputModel) 
         {
-           var produto = _produtoRepository.Adiciona(produtoInputModel);
+            try
+            {
+                var produto = _produtoRepository.Adiciona(produtoInputModel);
 
-            return Ok((ProdutoViewModel)produto);
+                return CreatedAtAction(nameof(Get), new { id = produto.Id }, (ProdutoViewModel)produto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ocorreu um erro interno ao realizar o 'Post'. Retorno: {ex.Message}.");
+            }
+       
         }
     }
 }

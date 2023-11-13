@@ -2,27 +2,24 @@
 
 namespace ECommerce.Domain.Entities
 {
-    public class Produto : BaseEntity
+    public class Categoria : BaseEntity
     {
         public string Nome { get; private set; }
         public string Descricao { get; private set; }
-        public decimal Preco { get; private set; }
         public bool Ativo { get; private set; }
         public DateTime DataCriacao { get; private set; }
 
-        public Produto(string nome, string descricao, decimal preco)
+        public Categoria(string nome, string descricao)
         {
             Id = GeraNovoId();
             Nome = nome;
             Descricao = descricao;
-            Preco = preco;
         }
         public override void RealizaValidacoes()
         {
             throw new NotImplementedException();
-        }        
+        }
 
-        public void AdicionaDataDeCriacao() =>
-            DataCriacao = DateTime.Now;
+        public void AdicionaDataCriacao() => DataCriacao = DateTime.Now;   
     }
 }

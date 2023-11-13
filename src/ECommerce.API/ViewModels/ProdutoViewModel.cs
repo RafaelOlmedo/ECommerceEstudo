@@ -24,12 +24,10 @@ namespace ECommerce.API.ViewModels
 
         public static IEnumerable<ProdutoViewModel> ConverteListaDeProdutoEmListaProdutoViewModel(IEnumerable<Produto> produtos)
         {
-            var produtosViewModel = new List<ProdutoViewModel>();
+            if(produtos == null)
+                return Enumerable.Empty<ProdutoViewModel>();
 
-            foreach (var produto in produtos)
-                produtosViewModel.Add(produto);
-
-            return produtosViewModel;
+            return produtos.Select(produto => (ProdutoViewModel)produto);
         }
     }
 }

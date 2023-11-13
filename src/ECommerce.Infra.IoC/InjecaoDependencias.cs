@@ -11,6 +11,7 @@ namespace ECommerce.Infra.IoC
         {
             services.AddScoped<ECommerceDataContext, ECommerceDataContext>();
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
+            services.AddTransient<ICategoriaRepository, CategoriaRepository>();
         }
     }
 }

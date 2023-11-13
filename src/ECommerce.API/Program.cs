@@ -2,12 +2,13 @@ using ECommerce.API.Extensions;
 using ECommerce.Infra.Data.EntityFramework.Contexts;
 using ECommerce.Infra.IoC;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ECommerceDataContext>(c => c.UseSqlServer(connectionString));
+builder.Services.AddDbContext<ECommerceDataContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 InjecaoDependencias.RegistraDependencias(builder.Services);
 

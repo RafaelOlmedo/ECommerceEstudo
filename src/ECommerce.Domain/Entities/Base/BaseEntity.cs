@@ -7,5 +7,7 @@ namespace ECommerce.Domain.Entities.Base
         public Guid Id { get; set; }
 
         public abstract void RealizaValidacoes();
+        protected Guid GeraNovoId() =>
+            new();
     }
 }
