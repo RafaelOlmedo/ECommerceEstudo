@@ -1,11 +1,22 @@
+using ECommerce.API.Extensions;
+using ECommerce.Infra.Data.EntityFramework.Contexts;
+using ECommerce.Infra.IoC;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddDbContext<ECommerceDataContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+InjecaoDependencias.RegistraDependencias(builder.Services);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+ServiceCollectionExtensions.ConfiguraSwagger(builder.Services);
 
 var app = builder.Build();
 
