@@ -26,6 +26,11 @@ namespace ECommerce.Domain.Services
                 return produto;
             }
 
+            produto.RealizaValidacoes();
+
+            if (!produto.IsValid)
+                return produto;
+
             produto = _produtoRepository.Adiciona(produto);
 
             return produto;
