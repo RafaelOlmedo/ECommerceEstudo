@@ -51,7 +51,7 @@ namespace ECommerce.API.Controllers
             {
                 var produto = _produtoService.Adiciona(produtoInputModel);
 
-                if (!produto.IsValid)
+                if (produto.Invalid)
                     return BadRequest(new { sucesso = false, error = produto.Notifications });
 
                 return CreatedAtAction(nameof(Get), new { id = produto.Id }, (ProdutoViewModel)produto);

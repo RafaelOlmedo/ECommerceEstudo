@@ -17,6 +17,7 @@ namespace ECommerce.Infra.IoC
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
 
             services.AddTransient<IProdutoService, ProdutoService>();
+            services.AddTransient<ICategoriaService, CategoriaService>();
         }
     }
 }

@@ -13,7 +13,6 @@ namespace ECommerce.Domain.Services
         {
             _produtoRepository = produtoRepository;
             _categoriaRepository = categoriaRepository;
-
         }
 
         public Produto Adiciona(Produto produto)
@@ -28,7 +27,7 @@ namespace ECommerce.Domain.Services
 
             produto.RealizaValidacoes();
 
-            if (!produto.IsValid)
+            if (produto.Invalid)
                 return produto;
 
             produto = _produtoRepository.Adiciona(produto);

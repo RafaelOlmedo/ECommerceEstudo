@@ -1,6 +1,7 @@
 ﻿using ECommerce.API.InputModels;
 using ECommerce.API.ViewModels;
 using ECommerce.Domain.Interfaces.Repositories;
+using ECommerce.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers
@@ -9,11 +10,13 @@ namespace ECommerce.API.Controllers
     [ApiController]
     public class CategoriasController : ControllerBase
     {
+        private readonly ICategoriaService _categoriaService;
         private readonly ICategoriaRepository _categoriaRepository;
 
-        public CategoriasController(ICategoriaRepository categoriaRepository)
+        public CategoriasController(ICategoriaRepository categoriaRepository, ICategoriaService categoriaService)
         {
             _categoriaRepository = categoriaRepository;
+            _categoriaService = categoriaService;
         }
 
         [HttpGet]
@@ -41,7 +44,10 @@ namespace ECommerce.API.Controllers
         {
             try
             {
-                var categoria = _categoriaRepository.Adiciona(categoriaInputModel);
+                var categoria = _categoriaService.Adiciona(categoriaInputModel);
+
+                if (categoria.Invalid)
+                    return BadRequest(new { sucesso = false, error = categoria.Notifications });
 
                 return CreatedAtAction(nameof(Get), new { id = categoria.Id }, (CategoriaViewModel)categoria);
             }
