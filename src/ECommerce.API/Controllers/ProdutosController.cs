@@ -1,7 +1,7 @@
 ﻿using ECommerce.API.InputModels;
 using ECommerce.API.ViewModels;
-using ECommerce.Domain.Entities;
 using ECommerce.Domain.Interfaces.Repositories;
+using ECommerce.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers
@@ -11,10 +11,13 @@ namespace ECommerce.API.Controllers
     public class ProdutosController : ControllerBase
     {
         private readonly IProdutoRepository _produtoRepository;
+        private readonly IProdutoService _produtoService;
 
-        public ProdutosController(IProdutoRepository produtoRepository)
+        public ProdutosController(IProdutoRepository produtoRepository,
+                                  IProdutoService produtoService)
         {
-           _produtoRepository = produtoRepository;
+            _produtoRepository = produtoRepository;
+            _produtoService = produtoService;
         }
 
         /// <summary>
@@ -38,15 +41,18 @@ namespace ECommerce.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"Ocorreu um erro interno ao realizar o 'Get'. Retorno: {ex.Message}.");
-            }            
+            }
         }
 
         [HttpPost]
-        public IActionResult Post(ProdutoInputModel produtoInputModel) 
+        public IActionResult Post(ProdutoInputModel produtoInputModel)
         {
             try
             {
-                var produto = _produtoRepository.Adiciona(produtoInputModel);
+                var produto = _produtoService.Adiciona(produtoInputModel);
+
+                if (produto.Invalid)
+                    return BadRequest(new { sucesso = false, error = produto.Notifications });
 
                 return CreatedAtAction(nameof(Get), new { id = produto.Id }, (ProdutoViewModel)produto);
             }
@@ -54,7 +60,7 @@ namespace ECommerce.API.Controllers
             {
                 return StatusCode(500, $"Ocorreu um erro interno ao realizar o 'Post'. Retorno: {ex.Message}.");
             }
-       
+
         }
     }
 }

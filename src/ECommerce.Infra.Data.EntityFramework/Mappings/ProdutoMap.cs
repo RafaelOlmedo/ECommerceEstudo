@@ -16,6 +16,11 @@ namespace ECommerce.Infra.Data.EntityFramework.Mappings
 
             ConfiguracoesColunaNome(builder);
             ConfiguracoesColunaDescricao(builder);
+
+            builder
+                .HasOne(p => p.Categoria)
+                .WithMany(c => c.Produtos)
+                .HasForeignKey(p => p.IdCategoria);
         }
 
         private void ConfiguracoesColunaNome(EntityTypeBuilder<Produto> builder) 

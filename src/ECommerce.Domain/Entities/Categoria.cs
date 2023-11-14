@@ -1,4 +1,6 @@
-﻿using ECommerce.Domain.Entities.Base;
+﻿using ECommerce.Domain.Constants;
+using ECommerce.Domain.Entities.Base;
+using Flunt.Validations;
 
 namespace ECommerce.Domain.Entities
 {
@@ -9,6 +11,8 @@ namespace ECommerce.Domain.Entities
         public bool Ativo { get; private set; }
         public DateTime DataCriacao { get; private set; }
 
+        public ICollection<Produto> Produtos { get; set; } = new List<Produto>();
+
         public Categoria(string nome, string descricao)
         {
             Id = GeraNovoId();
@@ -17,9 +21,17 @@ namespace ECommerce.Domain.Entities
         }
         public override void RealizaValidacoes()
         {
-            throw new NotImplementedException();
+            AddNotifications(
+                 new Contract<Produto>()
+                    .Requires()
+                    .IsNotNullOrEmpty(Nome, nameof(Nome), $"O campo '{nameof(Nome)}' deve ser preenchido.")
+                    .IsNotNullOrEmpty(Descricao, nameof(Descricao), $"O campo '{nameof(Descricao)}' deve ser preenchido.")
+                    .IsLowerThan(Nome.Length, CategoriaTamanhoColunas.Nome, nameof(Nome), $"O campo '{nameof(Nome)}' deve possuir no máximo {CategoriaTamanhoColunas.Nome} caracteres.")
+                    .IsLowerThan(Descricao.Length, CategoriaTamanhoColunas.Descricao, nameof(Descricao), $"O campo '{nameof(Descricao)}' deve possuir no máximo {CategoriaTamanhoColunas.Descricao} caracteres.")
+                );
         }
 
-        public void AdicionaDataCriacao() => DataCriacao = DateTime.Now;   
+        public void AdicionaDataCriacao() => 
+            DataCriacao = DateTime.Now;   
     }
 }

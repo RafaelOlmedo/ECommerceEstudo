@@ -30,6 +30,9 @@ namespace ECommerce.Infra.Data.EntityFramework.Repositories
             return categoria;
         }
 
-        
+        public Categoria RecuperaPeloId(Guid id)
+        {
+            return _dbSetCategoria.Find(id);
+        }
     }
 }

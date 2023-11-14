@@ -6,6 +6,7 @@ namespace ECommerce.Domain.Entities.Base
     {
         public Guid Id { get; set; }
 
+        public bool Invalid => !IsValid;
         public abstract void RealizaValidacoes();
         protected Guid GeraNovoId() =>
             new();
