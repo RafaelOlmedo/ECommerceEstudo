@@ -9,6 +9,8 @@ namespace ECommerce.Domain.Entities
         public bool Ativo { get; private set; }
         public DateTime DataCriacao { get; private set; }
 
+        public ICollection<Produto> Produtos { get; set; } = new List<Produto>();
+
         public Categoria(string nome, string descricao)
         {
             Id = GeraNovoId();

@@ -10,12 +10,18 @@ namespace ECommerce.Domain.Entities
         public bool Ativo { get; private set; }
         public DateTime DataCriacao { get; private set; }
 
-        public Produto(string nome, string descricao, decimal preco)
+
+        public Guid IdCategoria { get; private set; }
+        public Categoria Categoria { get; private set; }
+
+
+        public Produto(string nome, string descricao, decimal preco, Guid idCategoria)
         {
             Id = GeraNovoId();
             Nome = nome;
             Descricao = descricao;
             Preco = preco;
+            IdCategoria = idCategoria;
         }
         public override void RealizaValidacoes()
         {
