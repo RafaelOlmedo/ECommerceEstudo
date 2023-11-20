@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors();
+
 builder.Services.AddDbContext<ECommerceDataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -19,6 +21,9 @@ builder.Services.AddEndpointsApiExplorer();
 ServiceCollectionExtensions.ConfiguraSwagger(builder.Services);
 
 var app = builder.Build();
+app.UseCors(option => option.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -32,5 +37,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
