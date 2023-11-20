@@ -26,18 +26,23 @@ namespace ECommerce.Domain.Services
 
         public Categoria Atualiza(Categoria categoria)
         {
-            var categoriaRecuperada = _categoriaRepository.RecuperaPeloId(categoria.Id);
+            var categoriaCadastrada = _categoriaRepository.RecuperaPeloId(categoria.Id);
 
-            if (categoriaRecuperada == null)
+            if (categoriaCadastrada == null)
             {
                 categoria.AddNotification(nameof(categoria.Id), $"Categoria com id: '{categoria.Id}' não encontrada.");
                 return categoria;
             }
 
-            categoriaRecuperada.AtribuiNome(categoria.Nome);
-            categoriaRecuperada.AtribuiDescricao(categoria.Descricao);
+            categoriaCadastrada.AtribuiNome(categoria.Nome);
+            categoriaCadastrada.AtribuiDescricao(categoria.Descricao);
 
-            categoria =_categoriaRepository.Atualiza(categoriaRecuperada);
+            categoriaCadastrada.RealizaValidacoes();
+
+            if (categoria.Invalid)
+                return categoria;
+
+            categoria = _categoriaRepository.Atualiza(categoriaCadastrada);
 
             return categoria;
         }
@@ -46,7 +51,7 @@ namespace ECommerce.Domain.Services
         {
             var categoria = _categoriaRepository.RecuperaPeloId(id);
 
-            if (categoria == null) 
+            if (categoria == null)
                 return ($"Categoria com id: '{id}' não encontrada.", false);
 
             _categoriaRepository.Remove(categoria);

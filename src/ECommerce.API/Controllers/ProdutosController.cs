@@ -1,5 +1,6 @@
 ﻿using ECommerce.API.InputModels;
 using ECommerce.API.ViewModels;
+using ECommerce.Domain.Entities;
 using ECommerce.Domain.Interfaces.Repositories;
 using ECommerce.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -60,7 +61,45 @@ namespace ECommerce.API.Controllers
             {
                 return StatusCode(500, $"Ocorreu um erro interno ao realizar o 'Post'. Retorno: {ex.Message}.");
             }
+        }
 
+        [HttpPut("{id}")]
+        public IActionResult Put(Guid id, ProdutoInputModel produtoInputModel)
+        {
+            try
+            {
+                var produtoAtualizar = (Produto)produtoInputModel;
+                produtoAtualizar.AtribuiId(id);
+
+                var produto = _produtoService.Atualiza(produtoAtualizar);
+
+                if (produto.Invalid)
+                    return BadRequest(new { sucesso = false, error = produto.Notifications });
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ocorreu um erro interno ao realizar o 'Put'. Retorno: {ex.Message}.");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(Guid id)
+        {
+            try
+            {
+                (string mensagemErro, bool sucesso) = _produtoService.Remove(id);
+
+                if (!sucesso)
+                    return BadRequest(new { sucesso = false, error = mensagemErro });
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ocorreu um erro interno ao realizar o 'Delete'. Retorno: {ex.Message}.");
+            }
         }
     }
 }

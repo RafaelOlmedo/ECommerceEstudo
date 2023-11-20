@@ -17,13 +17,8 @@ namespace ECommerce.Domain.Services
 
         public Produto Adiciona(Produto produto)
         {
-            var categoria = _categoriaRepository.RecuperaPeloId(produto.IdCategoria);
-
-            if (categoria == null)
-            {
-                produto.AddNotification(nameof(produto.IdCategoria), "Categoria informada não existe.");
+            if (!VerificaSeCategoriaExiste(produto))
                 return produto;
-            }
 
             produto.RealizaValidacoes();
 
@@ -33,6 +28,52 @@ namespace ECommerce.Domain.Services
             produto = _produtoRepository.Adiciona(produto);
 
             return produto;
+        }
+
+        public Produto Atualiza(Produto produto)
+        {
+            var produtoCadastrado = _produtoRepository.RecuperaPeloId(produto.Id);
+
+            if (produtoCadastrado == null)
+            {
+                produto.AddNotification(nameof(produto.Id), $"Produto com id: '{produto.Id}' não encontrada.");
+                return produto;
+            }
+
+            if (!VerificaSeCategoriaExiste(produto))
+                return produto;
+
+            produtoCadastrado.AtribuiInformacoesPossiveisParaAtualizacao(produto.Nome, produto.Descricao, produto.Preco, produto.IdCategoria);
+            produtoCadastrado.RealizaValidacoes();
+
+            produto = _produtoRepository.Atualiza(produtoCadastrado);
+
+            return produto;
+        }
+
+        public (string mensagemErro, bool sucesso) Remove(Guid id)
+        {
+            var produto = _produtoRepository.RecuperaPeloId(id);
+
+            if (produto == null)
+                return ($"Produto com id: '{id}' não encontrada.", false);
+
+            _produtoRepository.Remove(produto);
+
+            return (string.Empty, true);
+        }
+
+        private bool VerificaSeCategoriaExiste(Produto produto)
+        {
+            var categoria = _categoriaRepository.RecuperaPeloId(produto.IdCategoria);
+
+            if (categoria == null)
+            {
+                produto.AddNotification(nameof(produto.IdCategoria), "Categoria informada não existe.");
+                return false;
+            }
+
+            return true;
         }
     }
 }
