@@ -30,5 +30,24 @@ namespace ECommerce.Infra.Data.EntityFramework.Repositories
 
             return produto;
         }
+
+        public Produto RecuperaPeloId(Guid id)
+        {
+            return _dbSetProdutos.AsNoTracking().FirstOrDefault(p => p.Id == id);
+        }
+
+        public Produto Atualiza(Produto produto)
+        {
+            _dbSetProdutos.Update(produto);
+            _context.SaveChanges();
+
+            return produto;
+        }
+
+        public void Remove(Produto produto)
+        {
+            _dbSetProdutos.Remove(produto);
+            _context.SaveChanges();
+        }
     }
 }

@@ -46,6 +46,17 @@ namespace ECommerce.Domain.Entities
                 AddNotification(nameof(IdCategoria), $"O campo '{nameof(IdCategoria)}' deve ser preenchido.");
         }
 
+        public void AtribuiInformacoesPossiveisParaAtualizacao(string nome, string descricao, decimal preco, Guid idCategoria)
+        {
+            Nome = nome;
+            Descricao = descricao;
+            Preco = preco;  
+            IdCategoria = idCategoria;
+        }
+
+        public void AtribuiId(Guid id) =>
+            Id = id;
+
         public void AdicionaDataDeCriacao() =>
             DataCriacao = DateTime.Now;
     }

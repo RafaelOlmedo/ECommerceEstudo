@@ -32,7 +32,21 @@ namespace ECommerce.Infra.Data.EntityFramework.Repositories
 
         public Categoria RecuperaPeloId(Guid id)
         {
-            return _dbSetCategoria.Find(id);
+            return _dbSetCategoria.AsNoTracking().FirstOrDefault(c => c.Id == id);
+        }
+
+        public Categoria Atualiza(Categoria categoria)
+        {
+            _dbSetCategoria.Update(categoria);
+            _context.SaveChanges();
+
+            return categoria;
+        }
+
+        public void Remove(Categoria categoria)
+        {
+            _dbSetCategoria.Remove(categoria);
+            _context.SaveChanges();
         }
     }
 }

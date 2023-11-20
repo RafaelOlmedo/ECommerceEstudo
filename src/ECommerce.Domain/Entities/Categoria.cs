@@ -31,6 +31,15 @@ namespace ECommerce.Domain.Entities
                 );
         }
 
+        public void AtribuiId(Guid id) =>
+            Id = id;
+
+        public void AtribuiNome(string nome) =>
+            Nome = nome;
+
+        public void AtribuiDescricao(string descricao) =>
+            Descricao = descricao;
+
         public void AdicionaDataCriacao() => 
             DataCriacao = DateTime.Now;   
     }

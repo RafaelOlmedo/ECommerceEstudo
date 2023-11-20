@@ -23,5 +23,42 @@ namespace ECommerce.Domain.Services
             _categoriaRepository.Adiciona(categoria);
             return categoria;
         }
+
+        public Categoria Atualiza(Categoria categoria)
+        {
+            var categoriaCadastrada = _categoriaRepository.RecuperaPeloId(categoria.Id);
+
+            if (categoriaCadastrada == null)
+            {
+                categoria.AddNotification(nameof(categoria.Id), $"Categoria com id: '{categoria.Id}' não encontrada.");
+                return categoria;
+            }
+
+            categoriaCadastrada.AtribuiNome(categoria.Nome);
+            categoriaCadastrada.AtribuiDescricao(categoria.Descricao);
+
+            categoriaCadastrada.RealizaValidacoes();
+
+            if (categoria.Invalid)
+                return categoria;
+
+            categoria = _categoriaRepository.Atualiza(categoriaCadastrada);
+
+            return categoria;
+        }
+
+        public (string mensagemErro, bool sucesso) Remove(Guid id)
+        {
+            var categoria = _categoriaRepository.RecuperaPeloId(id);
+
+            if (categoria == null)
+                return ($"Categoria com id: '{id}' não encontrada.", false);
+
+            _categoriaRepository.Remove(categoria);
+
+            return (string.Empty, true);
+        }
+
+
     }
 }

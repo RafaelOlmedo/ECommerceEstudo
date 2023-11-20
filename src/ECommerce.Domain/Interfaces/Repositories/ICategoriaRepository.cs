@@ -7,5 +7,7 @@ namespace ECommerce.Domain.Interfaces.Repositories
         IEnumerable<Categoria> RecuperaTodos();
         Categoria RecuperaPeloId(Guid id);
         Categoria Adiciona(Categoria categoria);
+        Categoria Atualiza(Categoria categoria);
+        void Remove(Categoria categoria);
     }
 }
