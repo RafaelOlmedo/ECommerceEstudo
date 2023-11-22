@@ -4,7 +4,7 @@ class Program
 {
     static void Main()
     {
-        InformacoesAssembly informacoesAssembly = new InformacoesAssembly();
+        InformacoesAssembly informacoesAssembly = new();
         TopShelfConfiguracoes.Init(informacoesAssembly.GetCurrentServiceInfo());
     }
 }

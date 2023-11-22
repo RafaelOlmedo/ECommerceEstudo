@@ -17,7 +17,7 @@ namespace Ecommerce.TopShelfService.AppSettings
                         servico.ConstructUsing(construtor => new AgendamentoJobsIntegracao());
                         servico.WhenStarted(servicoQuartz => servicoQuartz.IniciaAgendamento(informacoesServico));
                         servico.WhenStopped(servicoQuartz => servicoQuartz.PararAgendamento());
-                    });
+                    });                    
                 });
 			}
 			finally

@@ -27,9 +27,9 @@ namespace Ecommerce.TopShelfService.Entities.Configuracoes
         public string SenhaCriptografada { get; }
 
         public string RecuperaSenha() =>
-            string.IsNullOrEmpty(Senha) ? SenhaCriptografada : Senha;
+            string.IsNullOrEmpty(Senha) ? SenhaCriptografada : Senha;        
 
-        public void Valida()
+        public override void RealizaValidacoes()
         {
             bool senhaNaoFoiPreenchida = string.IsNullOrEmpty(Senha) && string.IsNullOrEmpty(SenhaCriptografada);
 
@@ -40,8 +40,5 @@ namespace Ecommerce.TopShelfService.Entities.Configuracoes
                 .IsNotNullOrEmpty(Usuario, nameof(Usuario), "O campo 'Usuario' do arquivo de configuração não está preenchido.")
                 .IsFalse(senhaNaoFoiPreenchida, "", "O campo 'Senha' do arquivo de configuração não está preenchido."));
         }
-
-        public override void RealizaValidacoes()
-        { }
     }
 }

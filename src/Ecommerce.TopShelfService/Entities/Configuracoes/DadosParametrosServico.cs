@@ -1,4 +1,5 @@
 ﻿using ECommerce.Domain.Entities.Base;
+using Flunt.Validations;
 
 namespace Ecommerce.TopShelfService.Entities.Configuracoes
 {
@@ -25,7 +26,14 @@ namespace Ecommerce.TopShelfService.Entities.Configuracoes
 
         public override void RealizaValidacoes()
         {
-            throw new NotImplementedException();
+            AddNotifications(new Contract<DadosParametrosServico>()
+               .Requires()
+               .IsNotNullOrEmpty(PastaExportacaoProdutos, nameof(PastaExportacaoProdutos),$"O campo '{nameof(PastaExportacaoProdutos)}' do arquivo de configuração não está preenchido.")
+               .IsNotNullOrEmpty(PastaExportacaoCategorias, nameof(PastaExportacaoCategorias), $"O campo '{nameof(PastaExportacaoCategorias)}' do arquivo de configuração não está preenchido.")
+               .IsGreaterThan(ScheduleExportacaoProdutosEmMinutos, 0, $"O campo '{nameof(ScheduleExportacaoProdutosEmMinutos)}' do arquivo de configuração, deve possuir um valor maior ou igual à 0.")
+               .IsGreaterThan(ScheduleExportacaoCategoriasEmMinutos, 0, $"O campo '{nameof(ScheduleExportacaoCategoriasEmMinutos)}' do arquivo de configuração, deve possuir um valor maior ou igual à 0.")
+               .IsGreaterThan(LimiteMemoria, 0, $"O campo '{nameof(LimiteMemoria)}' do arquivo de configuração, deve possuir um valor maior ou igual à 0.")
+               );
         }
     }
 }

@@ -8,10 +8,10 @@ namespace Ecommerce.TopShelfService.Entities.Configuracoes
         public const string LogConfiguracao = "[CONFIG]";
         public DadosServidor Servidor { get; private set; }
         public DadosParametrosServico ParametrosServico { get; private set; }
-        public string CaminhoArquivoConfiguracaoServico { get; private set; }       
+        public string CaminhoArquivoConfiguracaoServico { get; private set; }
 
-        public DadosConfiguracaoServico(DadosServidor servidor = default, 
-                                        DadosParametrosServico parametrosServico = default, 
+        public DadosConfiguracaoServico(DadosServidor servidor = default,
+                                        DadosParametrosServico parametrosServico = default,
                                         string caminhoArquivoConfiguracaoServico = "")
         {
             Servidor = servidor;
@@ -52,7 +52,7 @@ namespace Ecommerce.TopShelfService.Entities.Configuracoes
         {
             if (Invalido) return;
 
-            Servidor.Valida();
+            Servidor.RealizaValidacoes();
             AddNotifications(Servidor.Notifications);
         }
 
@@ -60,9 +60,8 @@ namespace Ecommerce.TopShelfService.Entities.Configuracoes
         {
             if (Invalido) return;
 
-            AddNotifications(new Contract<DadosParametrosServico>()
-                .Requires()
-                .IsNotNull(ParametrosServico, "", "Não foi possível recuperar os parâmetros de configuração do serviço."));
+            ParametrosServico.RealizaValidacoes();
+            AddNotifications(ParametrosServico.Notifications);
         }
 
         private void ValidaSeExisteDadosServidor()
@@ -72,7 +71,7 @@ namespace Ecommerce.TopShelfService.Entities.Configuracoes
             if (Servidor is null)
                 AddNotification(nameof(Servidor), "Não foi possível recuperar as informações de conexão do SBO.");
         }
-        
+
         public override void RealizaValidacoes()
         {
             if (Invalido) return;
