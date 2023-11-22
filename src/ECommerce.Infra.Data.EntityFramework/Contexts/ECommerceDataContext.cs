@@ -22,10 +22,11 @@ namespace ECommerce.Infra.Data.EntityFramework.Contexts
             base.OnModelCreating(modelBuilder);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if(!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer("DefaultConnection");
-        }
+        // TODO: Validar se realmente não precisa disso.
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if(!optionsBuilder.IsConfigured)
+        //        optionsBuilder.UseSqlServer("DefaultConnection");
+        //}
     }
 }

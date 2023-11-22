@@ -52,7 +52,7 @@ namespace ECommerce.API.Controllers
             {
                 var produto = _produtoService.Adiciona(produtoInputModel);
 
-                if (produto.Invalid)
+                if (produto.Invalido)
                     return BadRequest(new { sucesso = false, error = produto.Notifications });
 
                 return CreatedAtAction(nameof(Get), new { id = produto.Id }, (ProdutoViewModel)produto);
@@ -73,7 +73,7 @@ namespace ECommerce.API.Controllers
 
                 var produto = _produtoService.Atualiza(produtoAtualizar);
 
-                if (produto.Invalid)
+                if (produto.Invalido)
                     return BadRequest(new { sucesso = false, error = produto.Notifications });
 
                 return NoContent();

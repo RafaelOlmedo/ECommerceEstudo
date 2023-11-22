@@ -17,7 +17,7 @@ namespace ECommerce.Domain.Services
         {
             categoria.RealizaValidacoes();
 
-            if (categoria.Invalid)
+            if (categoria.Invalido)
                 return categoria;
 
             _categoriaRepository.Adiciona(categoria);
@@ -39,7 +39,7 @@ namespace ECommerce.Domain.Services
 
             categoriaCadastrada.RealizaValidacoes();
 
-            if (categoria.Invalid)
+            if (categoria.Invalido)
                 return categoria;
 
             categoria = _categoriaRepository.Atualiza(categoriaCadastrada);

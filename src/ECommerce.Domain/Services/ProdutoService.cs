@@ -22,7 +22,7 @@ namespace ECommerce.Domain.Services
 
             produto.RealizaValidacoes();
 
-            if (produto.Invalid)
+            if (produto.Invalido)
                 return produto;
 
             produto = _produtoRepository.Adiciona(produto);
