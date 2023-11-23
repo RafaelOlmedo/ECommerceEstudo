@@ -1,15 +1,20 @@
 ﻿using Ecommerce.TopShelfService.Controllers;
 using Ecommerce.TopShelfService.Entities;
 using Ecommerce.TopShelfService.Jobs;
+using ECommerce.Domain.Interfaces.Services;
 using ECommerce.Infra.Data.EntityFramework.Contexts;
 using ECommerce.Infra.IoC;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Impl;
+using Serilog;
 using System.Collections.Specialized;
+using Ecommerce.TopShelfService.Logs;
+using ECommerce.ControleLogs;
 
 namespace Ecommerce.TopShelfService.Schedules
+
 {
     public class AgendamentoJobsIntegracao
     {
@@ -36,12 +41,19 @@ namespace Ecommerce.TopShelfService.Schedules
 
         public void IniciaAgendamento(InformacoesServico informacoesServico)
         {
-            //Log.Logger.Information($"Serviço inicializado. Versão: {informacoesServico.VersaoServico}");
+            Log.Information("");
+            Log.Information($"Serviço inicializado. Versão: {informacoesServico.VersaoServico}");
 
             var configuracaoServico = ConfiguracoesServicoController.ObtemConfiguracaoServico();
 
             if (configuracaoServico.Invalido)
+            {
+                Log.Error("Existem erros no preenchimento do arquivo de configuração. Segue(m) detalhe(s):");
+                foreach (var notificacao in configuracaoServico.Notifications)
+                    Log.Error(notificacao.Message);
+
                 return;
+            }
 
             if (configuracaoServico.ParametrosServico.ScheduleExportacaoProdutosEmMinutos > 0)
                 _intervaloExportacaoProdutosEmMinutos = configuracaoServico.ParametrosServico.ScheduleExportacaoProdutosEmMinutos;
@@ -69,6 +81,18 @@ namespace Ecommerce.TopShelfService.Schedules
             // TODO: Tem que arrumar ainda.
             services.AddDbContext<ECommerceDataContext>(options => options.UseSqlServer(connectionString));
 
+            // IoC do Log. Provavelmente tem como melhorar.
+            services.AddTransient<ILogService>(sp =>
+            {
+                return new LogTextoService
+                (
+                    tag: ExportacaoProdutosLog.Tag,
+                    subPasta: ExportacaoProdutosLog.SubPasta,
+                    nomeArquivo: ExportacaoProdutosLog.NomeArquivo,
+                    tipoArquivo: ExportacaoProdutosLog.TipoArquivo
+                );
+            });
+
             return services.BuildServiceProvider();
         }
 
@@ -93,7 +117,7 @@ namespace Ecommerce.TopShelfService.Schedules
         public void PararAgendamento()
         {
             _gerenciadorAgendamento.Shutdown().Wait();
-            // Log
+            Log.Information("Serviço parado.");
         }
     }
 }
