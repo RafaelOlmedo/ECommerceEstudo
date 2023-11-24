@@ -58,8 +58,8 @@ namespace Ecommerce.TopShelfService.Schedules
             if (configuracaoServico.ParametrosServico.ScheduleExportacaoProdutosEmMinutos > 0)
                 _intervaloExportacaoProdutosEmMinutos = configuracaoServico.ParametrosServico.ScheduleExportacaoProdutosEmMinutos;
 
-            if (configuracaoServico.ParametrosServico.ScheduleExportacaoCategoriasEmMinutos > 0)
-                _intervaloExportacaoCategoriasEmMinutos = configuracaoServico.ParametrosServico.ScheduleExportacaoCategoriasEmMinutos;
+            //if (configuracaoServico.ParametrosServico.ScheduleExportacaoCategoriasEmMinutos > 0)
+            //    _intervaloExportacaoCategoriasEmMinutos = configuracaoServico.ParametrosServico.ScheduleExportacaoCategoriasEmMinutos;
 
             #region Teste
             var services = ConfiguraServicos();
@@ -93,6 +93,13 @@ namespace Ecommerce.TopShelfService.Schedules
                 );
             });
 
+            //services.AddTransient<ILogService>(provider =>
+            //{
+            //    var factory = provider.GetRequiredService<ILogServiceFactory>();
+            //    return factory.CriaLogProdutos();
+            //});
+
+
             return services.BuildServiceProvider();
         }
 
@@ -111,7 +118,18 @@ namespace Ecommerce.TopShelfService.Schedules
                 .WithSimpleSchedule(x => x.WithIntervalInMinutes(_intervaloExportacaoProdutosEmMinutos).RepeatForever())
                 .Build();
 
+            IJobDetail jobExportacaoCategorias = JobBuilder
+                .Create<JobExportacaoCategorias>()
+                .UsingJobData(jobDataMap)
+                .Build();
+
+            ITrigger triggerExportacaoCategorias = TriggerBuilder.Create()
+                .StartNow()
+                .WithSimpleSchedule(x => x.WithIntervalInMinutes(_intervaloExportacaoCategoriasEmMinutos).RepeatForever())
+                .Build();
+
             _gerenciadorAgendamento.ScheduleJob(jobExportacaoProdutos, triggerExportacaoProdutos).Wait();
+            _gerenciadorAgendamento.ScheduleJob(jobExportacaoCategorias, triggerExportacaoCategorias).Wait();
         }
 
         public void PararAgendamento()

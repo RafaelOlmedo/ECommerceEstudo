@@ -1,6 +1,7 @@
 ﻿using Ecommerce.TopShelfService.Entities;
 using Ecommerce.TopShelfService.Logs;
 using Ecommerce.TopShelfService.Schedules;
+using ECommerce.ControleLogs;
 using Serilog;
 using Serilog.Filters;
 using Topshelf;
@@ -26,10 +27,20 @@ namespace Ecommerce.TopShelfService.AppSettings
                     configuracoes.StartAutomatically();
 
                     configuracoes.EnableServiceRecovery(configurador => configurador.RestartService(0));
-                    
+
+                    //List<ConfiguracaoLogEntity> configuracaoLogEntities = new();
+                    //configuracaoLogEntities.Add(new ExportacaoProdutosLog());
+                    //configuracaoLogEntities.Add(new ExportacaoCategoriasLog());
+
+                    //var logSerilog = ConfiguracaoLog.ConfiguracaoInicialSeriLogTexto(configuracaoLogEntities);
+
+                    //var exportacaoProdutosLog = new ExportacaoProdutosLog();
+                    //var logSerilog = ConfiguracaoLog.ConfiguracaoInicialSeriLogTexto(exportacaoProdutosLog);
+
                     Log.Logger = new LoggerConfiguration()
                         .WriteTo.Logger(x => x
                             .Filter.ByExcluding(Matching.WithProperty(nameof(ExportacaoProdutosLog.Tag)))
+                            .Filter.ByExcluding(Matching.WithProperty(nameof(ExportacaoCategoriasLog.Tag)))
                                 .WriteTo.File(
                                     Path.Combine(
                                         AppParams.CaminhoPastaDeLog,
@@ -39,24 +50,36 @@ namespace Ecommerce.TopShelfService.AppSettings
                         .MinimumLevel.Information()
                         .Enrich.FromLogContext()
 
-                        .WriteTo.Logger(x => x
-                            .Filter.ByIncludingOnly(Matching.WithProperty(nameof(ExportacaoProdutosLog.Tag)))
-                                .WriteTo.File(
-                                    Path.Combine(
-                                        AppParams.CaminhoPastaDeLog,
-                                        ExportacaoProdutosLog.SubPasta,
-                                        $"{ExportacaoProdutosLog.NomeArquivo}.{ExportacaoProdutosLog.TipoArquivo}"
-                                        ),
-                                        rollingInterval: RollingInterval.Day))
-                        .MinimumLevel.Information()
-                        .Enrich.FromLogContext()
+                    .WriteTo.Logger(x => x
+                        .Filter.ByIncludingOnly(Matching.WithProperty(nameof(ExportacaoProdutosLog.Tag)))
+                            .WriteTo.File(
+                                Path.Combine(
+                                    AppParams.CaminhoPastaDeLog,
+                                    ExportacaoProdutosLog.SubPasta,
+                                    $"{ExportacaoProdutosLog.NomeArquivo}.{ExportacaoProdutosLog.TipoArquivo}"
+                                    ),
+                                    rollingInterval: RollingInterval.Day))
+                    .MinimumLevel.Information()
+                    .Enrich.FromLogContext()
+
+                     .WriteTo.Logger(x => x
+                        .Filter.ByIncludingOnly(Matching.WithProperty(nameof(ExportacaoProdutosLog.Tag)))
+                            .WriteTo.File(
+                                Path.Combine(
+                                    AppParams.CaminhoPastaDeLog,
+                                    ExportacaoCategoriasLog.SubPasta,
+                                    $"{ExportacaoCategoriasLog.NomeArquivo}.{ExportacaoCategoriasLog.TipoArquivo}"
+                                    ),
+                                    rollingInterval: RollingInterval.Day))
+                    .MinimumLevel.Information()
+                    .Enrich.FromLogContext()
 
 #if DEBUG
-    .WriteTo.Console()
+                    .WriteTo.Console()
 #endif
                     .CreateLogger();
 
-                    configuracoes.UseSerilog();
+                    configuracoes.UseSerilog(Log.Logger);
 
                     configuracoes.SetServiceName(informacoesServico.NomeServico);
                     configuracoes.SetDisplayName(informacoesServico.NomeExibicaoServico);

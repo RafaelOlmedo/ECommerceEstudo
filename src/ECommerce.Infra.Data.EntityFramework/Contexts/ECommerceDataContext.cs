@@ -25,7 +25,7 @@ namespace ECommerce.Infra.Data.EntityFramework.Contexts
         // TODO: Validar se realmente não precisa disso.
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
-        //    if(!optionsBuilder.IsConfigured)
+        //    if (!optionsBuilder.IsConfigured)
         //        optionsBuilder.UseSqlServer("DefaultConnection");
         //}
     }

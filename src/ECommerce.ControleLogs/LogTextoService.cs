@@ -5,8 +5,10 @@ namespace ECommerce.ControleLogs
 {
     public class LogTextoService : ILogService
     {
-        private string
-            _tag, _subPasta, _nomeArquivo, _tipoArquivo;
+        string Tag { get; set; }
+        string SubPasta { get; set; }
+        string NomeArquivo { get; set; }
+        string TipoArquivo { get; set; }
 
         public LogTextoService
         (
@@ -16,48 +18,48 @@ namespace ECommerce.ControleLogs
             string tipoArquivo
         )
         {
-            _tag = tag;
-            _subPasta = subPasta;
-            _nomeArquivo = nomeArquivo;
-            _tipoArquivo = tipoArquivo;
-        }
+            Tag = tag;
+            SubPasta = subPasta;
+            NomeArquivo = nomeArquivo;
+            TipoArquivo = tipoArquivo;
+        }  
 
-        public string Tag => _tag;
-        public string SubPasta => _subPasta;
-        public string NomeArquivo => _nomeArquivo;
-        public string TipoArquivo => _tipoArquivo;
+        string ILogService.Tag { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string ILogService.SubPasta { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string ILogService.NomeArquivo { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string ILogService.TipoArquivo { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void LogErro(string mensagem, bool inicioLog = false, bool fimLog = false)
         {
             if (inicioLog)
-                Log.Logger.Error($"{{{nameof(Tag)}}} =============================================================================================", _tag);
+                Log.Logger.Error($"{{{nameof(Tag)}}} =============================================================================================", Tag);
 
-            Log.Logger.Error($"{{{nameof(Tag)}}} {mensagem}", _tag);
+            Log.Logger.Error($"{{{nameof(Tag)}}} {mensagem}", Tag);
 
             if (fimLog)
-                Log.Logger.Error($"{{{nameof(Tag)}}} =============================================================================================", _tag);
+                Log.Logger.Error($"{{{nameof(Tag)}}} =============================================================================================", Tag);
         }
 
         public void LogErroFatal(string mensagem, bool inicioLog = false, bool fimLog = false)
         {
             if (inicioLog)
-                Log.Logger.Error($"{{{nameof(Tag)}}} =============================================================================================", _tag);
+                Log.Logger.Error($"{{{nameof(Tag)}}} =============================================================================================", Tag);
 
-            Log.Logger.Error($"{{{nameof(Tag)}}} {mensagem}", _tag);
+            Log.Logger.Error($"{{{nameof(Tag)}}} {mensagem}", Tag);
 
             if (fimLog)
-                Log.Logger.Error($"{{{nameof(Tag)}}} =============================================================================================", _tag);
+                Log.Logger.Error($"{{{nameof(Tag)}}} =============================================================================================", Tag);
         }
 
         public void LogInformacao(string mensagem, bool inicioLog = false, bool fimLog = false)
         {
             if (inicioLog)
-                Log.Logger.Information($"{{{nameof(Tag)}}} =============================================================================================", _tag);
+                Log.Logger.Information($"{{{nameof(Tag)}}} =============================================================================================", Tag);
 
-            Log.Logger.Information($"{{{nameof(Tag)}}} {mensagem}", _tag);
+            Log.Logger.Information($"{{{nameof(Tag)}}} {mensagem}", Tag);
 
             if (fimLog)
-                Log.Logger.Information($"{{{nameof(Tag)}}} =============================================================================================", _tag);
+                Log.Logger.Information($"{{{nameof(Tag)}}} =============================================================================================", Tag);
         }
     }
 }

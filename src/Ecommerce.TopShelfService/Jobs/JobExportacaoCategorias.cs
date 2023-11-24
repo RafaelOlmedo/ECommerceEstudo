@@ -5,11 +5,12 @@ using Quartz;
 namespace Ecommerce.TopShelfService.Jobs
 {
     [DisallowConcurrentExecution]
-    public class JobExportacaoProdutos : IJob
+
+    public class JobExportacaoCategorias : IJob
     {
         //private readonly ILogServiceFactory _logServiceFactory;
 
-        //public JobExportacaoProdutos(ILogServiceFactory logServiceFactory)
+        //public JobExportacaoCategorias(ILogServiceFactory logServiceFactory)
         //{
         //    _logServiceFactory = logServiceFactory;
         //}
@@ -18,7 +19,7 @@ namespace Ecommerce.TopShelfService.Jobs
             var jobDataMap = context.JobDetail.JobDataMap;
             var container = (IServiceProvider)jobDataMap["container"];
 
-            return Task.Run(() => new ExportacaoProdutosController(container/*, _logServiceFactory*/));
+            return Task.Run(() => new ExportacaoCategoriasController(container/*, logServiceFactory*/));
         }
     }
 }
