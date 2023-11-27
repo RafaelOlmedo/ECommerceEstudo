@@ -2,7 +2,8 @@ using ECommerce.API.Extensions;
 using ECommerce.Infra.Data.EntityFramework.Contexts;
 using ECommerce.Infra.IoC;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,19 @@ builder.Services.AddCors();
 builder.Services.AddDbContext<ECommerceDataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// TODO: Possibilidade de melhoria: Incluir para que cada controller tenha um arquivo separado de log.
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .MinimumLevel.Error()
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File(Path.Combine(
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs"),
+                    "log.txt"
+                ), rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 InjecaoDependencias.RegistraDependencias(builder.Services);
 
