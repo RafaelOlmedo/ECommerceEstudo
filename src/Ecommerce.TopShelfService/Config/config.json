@@ -1,0 +1,16 @@
+{
+  "Servidor": {
+    "Nome": "",
+    "BaseDeDados": "",
+    "Usuario": "",
+    "Senha": "",
+    "SenhaCriptografada": ""
+  },
+  "ParametrosServico": {
+    "ScheduleExportacaoProdutosEmMinutos": 1,
+    "ScheduleExportacaoCategoriasEmMinutos": 1,
+    "LimiteMemoria": 2500,
+    "PastaExportacaoProdutos": "",
+    "PastaExportacaoCategorias": ""
+  }
+}

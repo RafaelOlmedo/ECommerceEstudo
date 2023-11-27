@@ -47,7 +47,7 @@ namespace ECommerce.API.Controllers
             {
                 var categoria = _categoriaService.Adiciona(categoriaInputModel);
 
-                if (categoria.Invalid)
+                if (categoria.Invalido)
                     return BadRequest(new { sucesso = false, error = categoria.Notifications });
 
                 return CreatedAtAction(nameof(Get), new { id = categoria.Id }, (CategoriaViewModel)categoria);
@@ -68,7 +68,7 @@ namespace ECommerce.API.Controllers
 
                 var categoria = _categoriaService.Atualiza(categoriaAtualizar);
 
-                if (categoria.Invalid)
+                if (categoria.Invalido)
                     return BadRequest(new { sucesso = false, error = categoria.Notifications });
 
                 return NoContent();
