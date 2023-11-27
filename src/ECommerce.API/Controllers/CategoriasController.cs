@@ -13,11 +13,17 @@ namespace ECommerce.API.Controllers
     {
         private readonly ICategoriaService _categoriaService;
         private readonly ICategoriaRepository _categoriaRepository;
+        private readonly ILogger<CategoriasController> _logger;
 
-        public CategoriasController(ICategoriaRepository categoriaRepository, ICategoriaService categoriaService)
+        private const string PrefixoLog = "[Categorias] - ";
+
+        public CategoriasController(ICategoriaRepository categoriaRepository,
+                                    ICategoriaService categoriaService,
+                                    ILogger<CategoriasController> logger)
         {
             _categoriaRepository = categoriaRepository;
             _categoriaService = categoriaService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -25,6 +31,7 @@ namespace ECommerce.API.Controllers
         {
             try
             {
+                int inteiro = Convert.ToInt32("a");
                 var todasCategorias = _categoriaRepository.RecuperaTodos();
 
                 if (!todasCategorias.Any())
@@ -36,7 +43,9 @@ namespace ECommerce.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Ocorreu um erro interno ao realizar o 'Get'. Retorno: {ex.Message}.");
+                string mensagemErro = $"Ocorreu um erro interno ao realizar o 'Get'. Retorno: {ex.Message}.";
+                GravaLogTextoParaErro(mensagemErro);
+                return StatusCode(500, mensagemErro);
             }
         }
 
@@ -54,7 +63,9 @@ namespace ECommerce.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Ocorreu um erro interno ao realizar o 'Post'. Retorno: {ex.Message}.");
+                string mensagemErro = $"Ocorreu um erro interno ao realizar o 'Post'. Retorno: {ex.Message}.";
+                GravaLogTextoParaErro(mensagemErro);
+                return StatusCode(500, mensagemErro);
             }
         }
 
@@ -75,12 +86,14 @@ namespace ECommerce.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Ocorreu um erro interno ao realizar o 'Put'. Retorno: {ex.Message}.");
+                string mensagemErro = $"Ocorreu um erro interno ao realizar o 'Put'. Retorno: {ex.Message}.";
+                GravaLogTextoParaErro(mensagemErro);
+                return StatusCode(500, mensagemErro);
             }
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id) 
+        public IActionResult Delete(Guid id)
         {
             try
             {
@@ -93,8 +106,13 @@ namespace ECommerce.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Ocorreu um erro interno ao realizar o 'Delete'. Retorno: {ex.Message}.");
-            }            
+                string mensagemErro = $"Ocorreu um erro interno ao realizar o 'Delete'. Retorno: {ex.Message}.";
+                GravaLogTextoParaErro(mensagemErro);
+                return StatusCode(500, mensagemErro);
+            }
         }
+
+        private void GravaLogTextoParaErro(string mensagem) =>
+                _logger.LogError($"{PrefixoLog}{mensagem}");
     }
 }
