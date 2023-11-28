@@ -2,15 +2,15 @@
 
 namespace Ecommerce.TopShelfService.Logs
 {
-    public class ExportacaoProdutosLog : BaseLog
+    public class ExportacaoCategoriasLog : BaseLog
     {
         public readonly static string
-           Tag = "[EXPORTAÇÃO PRODUTOS]",
-           SubPasta = "ExportacaoProdutos",
-           NomeArquivo = "log_EXPROD_",
+           Tag = "[EXPORTAÇÃO CATEGORIAS]",
+           SubPasta = "ExportacaoCategorias",
+           NomeArquivo = "log_EXCAT_",
            TipoArquivo = "txt";
 
-        public ExportacaoProdutosLog() :
+        public ExportacaoCategoriasLog() :
             base(Tag, SubPasta, NomeArquivo, TipoArquivo)
         {
         }

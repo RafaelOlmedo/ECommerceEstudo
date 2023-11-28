@@ -81,22 +81,28 @@ namespace Ecommerce.TopShelfService.Schedules
             // TODO: Tem que arrumar ainda.
             services.AddDbContext<ECommerceDataContext>(options => options.UseSqlServer(connectionString));
 
-            // IoC do Log. Provavelmente tem como melhorar.
-            services.AddTransient<ILogService>(sp =>
-            {
-                return new LogTextoService
-                (
-                    tag: ExportacaoProdutosLog.Tag,
-                    subPasta: ExportacaoProdutosLog.SubPasta,
-                    nomeArquivo: ExportacaoProdutosLog.NomeArquivo,
-                    tipoArquivo: ExportacaoProdutosLog.TipoArquivo
-                );
-            });
+            //// TODO: Depois ajustar para o log tem trabalhe com interfaces.
+            //services.AddTransient<ILogService>(sp =>
+            //{
+            //    return new LogTextoService
+            //    (
+            //        tag: ExportacaoProdutosLog.Tag,
+            //        subPasta: ExportacaoProdutosLog.SubPasta,
+            //        nomeArquivo: ExportacaoProdutosLog.NomeArquivo,
+            //        tipoArquivo: ExportacaoProdutosLog.TipoArquivo
+            //    );
+            //});
 
             return services.BuildServiceProvider();
         }
 
         private void AgendamentoJobs(IServiceProvider container)
+        {
+            ConfiguraJobExportacaoProdutos(container);
+            ConfiguraJobExportacaoCategorias(container);
+        }
+
+        private void ConfiguraJobExportacaoProdutos(IServiceProvider container)
         {
             var jobDataMap = new JobDataMap();
             jobDataMap.Put("container", container);
@@ -112,6 +118,24 @@ namespace Ecommerce.TopShelfService.Schedules
                 .Build();
 
             _gerenciadorAgendamento.ScheduleJob(jobExportacaoProdutos, triggerExportacaoProdutos).Wait();
+        }
+
+        private void ConfiguraJobExportacaoCategorias(IServiceProvider container)
+        {
+            var jobDataMap = new JobDataMap();
+            jobDataMap.Put("container", container);
+
+            IJobDetail jobExportacaoCategorias = JobBuilder
+                .Create<JobExportacaoCategorias>()
+                .UsingJobData(jobDataMap)
+                .Build();
+
+            ITrigger triggerExportacaoCategorias= TriggerBuilder.Create()
+                .StartNow()
+                .WithSimpleSchedule(x => x.WithIntervalInMinutes(_intervaloExportacaoCategoriasEmMinutos).RepeatForever())
+                .Build();
+
+            _gerenciadorAgendamento.ScheduleJob(jobExportacaoCategorias, triggerExportacaoCategorias).Wait();
         }
 
         public void PararAgendamento()

@@ -10,10 +10,10 @@ namespace Ecommerce.TopShelfService.AppSettings
 {
     public static class TopShelfConfiguracoes
     {
-        public static void Init(InformacoesServico informacoesServico) 
+        public static void Init(InformacoesServico informacoesServico)
         {
-			try
-			{
+            try
+            {
                 var servico = HostFactory.Run(configuracoes =>
                 {
                     configuracoes.Service<AgendamentoJobsIntegracao>(servico =>
@@ -26,21 +26,22 @@ namespace Ecommerce.TopShelfService.AppSettings
                     configuracoes.StartAutomatically();
 
                     configuracoes.EnableServiceRecovery(configurador => configurador.RestartService(0));
-                    
+
                     Log.Logger = new LoggerConfiguration()
                         .WriteTo.Logger(x => x
                             .Filter.ByExcluding(Matching.WithProperty(nameof(ExportacaoProdutosLog.Tag)))
+                            .Filter.ByExcluding(Matching.WithProperty(nameof(ExportacaoCategoriasLog.Tag)))
                                 .WriteTo.File(
                                     Path.Combine(
                                         AppParams.CaminhoPastaDeLog,
                                         "log.txt"
                                     ),
-                                    rollingInterval: RollingInterval.Infinite))
+                                    rollingInterval: RollingInterval.Day))
                         .MinimumLevel.Information()
                         .Enrich.FromLogContext()
 
                         .WriteTo.Logger(x => x
-                            .Filter.ByIncludingOnly(Matching.WithProperty(nameof(ExportacaoProdutosLog.Tag)))
+                            .Filter.ByIncludingOnly(Matching.WithProperty(nameof(ExportacaoProdutosLog.Tag), ExportacaoProdutosLog.Tag))
                                 .WriteTo.File(
                                     Path.Combine(
                                         AppParams.CaminhoPastaDeLog,
@@ -51,12 +52,24 @@ namespace Ecommerce.TopShelfService.AppSettings
                         .MinimumLevel.Information()
                         .Enrich.FromLogContext()
 
+                        .WriteTo.Logger(x => x
+                            .Filter.ByIncludingOnly(Matching.WithProperty(nameof(ExportacaoCategoriasLog.Tag), ExportacaoCategoriasLog.Tag))
+                                .WriteTo.File(
+                                    Path.Combine(
+                                        AppParams.CaminhoPastaDeLog,
+                                        ExportacaoCategoriasLog.SubPasta,
+                                        $"{ExportacaoCategoriasLog.NomeArquivo}.{ExportacaoCategoriasLog.TipoArquivo}"
+                                        ),
+                                        rollingInterval: RollingInterval.Day))
+                        .MinimumLevel.Information()
+                        .Enrich.FromLogContext()
+
 #if DEBUG
     .WriteTo.Console()
 #endif
                     .CreateLogger();
 
-                    configuracoes.UseSerilog();
+                    configuracoes.UseSerilog(Log.Logger);
 
                     configuracoes.SetServiceName(informacoesServico.NomeServico);
                     configuracoes.SetDisplayName(informacoesServico.NomeExibicaoServico);
@@ -67,7 +80,7 @@ namespace Ecommerce.TopShelfService.AppSettings
                 int tipoCodigo = (int)Convert.ChangeType(servico, servico.GetTypeCode());
                 Environment.ExitCode = tipoCodigo;
             }
-			finally
+            finally
             {
                 Log.CloseAndFlush();
             }
