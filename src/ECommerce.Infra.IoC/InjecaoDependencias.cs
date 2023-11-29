@@ -11,7 +11,7 @@ namespace ECommerce.Infra.IoC
     {
         public static void RegistraDependencias(IServiceCollection services)
         {
-            services.AddScoped<ECommerceDataContext, ECommerceDataContext>();
+            services.AddTransient<ECommerceDataContext, ECommerceDataContext>();
 
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
