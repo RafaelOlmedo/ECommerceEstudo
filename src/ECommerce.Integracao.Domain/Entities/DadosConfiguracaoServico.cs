@@ -1,7 +1,4 @@
-﻿using ECommerce.Domain.Entities.Base;
-using Flunt.Validations;
-
-namespace Ecommerce.TopShelfService.Entities.Configuracoes
+﻿namespace ECommerce.Integracao.Domain.Entities
 {
     public class DadosConfiguracaoServico : BaseEntity
     {

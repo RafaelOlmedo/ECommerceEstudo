@@ -19,9 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Infra.IoC", "ECom
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{26EB5418-97E7-4F2A-A97C-E99B8FFD7C42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.TopShelfService", "Ecommerce.TopShelfService\Ecommerce.TopShelfService.csproj", "{112543C6-5936-486F-95CB-6A874613C690}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.TopShelfService", "Ecommerce.TopShelfService\Ecommerce.TopShelfService.csproj", "{112543C6-5936-486F-95CB-6A874613C690}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.ControleLogs", "ECommerce.ControleLogs\ECommerce.ControleLogs.csproj", "{E646F4D6-CFE1-4328-BB2F-1366E20098DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.ControleLogs", "ECommerce.ControleLogs\ECommerce.ControleLogs.csproj", "{E646F4D6-CFE1-4328-BB2F-1366E20098DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Integracao.Domain", "ECommerce.Integracao.Domain\ECommerce.Integracao.Domain.csproj", "{3DCB5616-58A2-4A89-BE12-D33D2386473E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{E646F4D6-CFE1-4328-BB2F-1366E20098DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E646F4D6-CFE1-4328-BB2F-1366E20098DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E646F4D6-CFE1-4328-BB2F-1366E20098DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DCB5616-58A2-4A89-BE12-D33D2386473E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DCB5616-58A2-4A89-BE12-D33D2386473E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DCB5616-58A2-4A89-BE12-D33D2386473E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DCB5616-58A2-4A89-BE12-D33D2386473E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +69,7 @@ Global
 		{44CD84BF-0F35-43EF-A629-EFE01750E38E} = {06FD8963-8CA5-410C-B3F8-39A134E1354D}
 		{B4778834-5B82-4AE8-BF81-A9115962E964} = {06FD8963-8CA5-410C-B3F8-39A134E1354D}
 		{112543C6-5936-486F-95CB-6A874613C690} = {26EB5418-97E7-4F2A-A97C-E99B8FFD7C42}
+		{3DCB5616-58A2-4A89-BE12-D33D2386473E} = {C3733FF8-116B-41DC-9674-D7FBF0E2792A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {306A170E-5E6C-4349-85FA-285FC2C7A1FC}

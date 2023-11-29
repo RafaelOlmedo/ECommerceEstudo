@@ -1,6 +1,6 @@
-﻿using Ecommerce.TopShelfService.Logs.Base;
+﻿using ECommerce.Integracao.Domain.Logs.Base;
 
-namespace Ecommerce.TopShelfService.Logs
+namespace ECommerce.Integracao.Domain.Logs
 {
     public class ExportacaoCategoriasLog : BaseLog
     {

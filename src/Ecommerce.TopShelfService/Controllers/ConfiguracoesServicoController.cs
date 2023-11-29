@@ -1,6 +1,6 @@
 ﻿using Ecommerce.TopShelfService.AppSettings;
-using Ecommerce.TopShelfService.Entities.Configuracoes;
 using Ecommerce.TopShelfService.ViewModels;
+using ECommerce.Integracao.Domain.Entities;
 using Newtonsoft.Json;
 
 namespace Ecommerce.TopShelfService.Controllers

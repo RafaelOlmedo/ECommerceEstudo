@@ -1,4 +1,5 @@
 ﻿using Ecommerce.TopShelfService.Controllers;
+using ECommerce.Integracao.Domain.Entities;
 using Quartz;
 
 namespace Ecommerce.TopShelfService.Jobs
@@ -10,8 +11,10 @@ namespace Ecommerce.TopShelfService.Jobs
         {
             var jobDataMap = context.JobDetail.JobDataMap;
             var container = (IServiceProvider)jobDataMap["container"];
+            var config = (DadosConfiguracaoServico)jobDataMap["config"];
 
-            return Task.Run(() => new ExportacaoCategoriasController(container));
+
+            return Task.Run(() => new ExportacaoCategoriasController(container, config));
         }
     }
 }

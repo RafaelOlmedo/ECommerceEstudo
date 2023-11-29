@@ -24,12 +24,14 @@
 
   <ItemGroup>
     <Folder Include="Config\" />
+    <Folder Include="Entities\Configuracoes\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ECommerce.ControleLogs\ECommerce.ControleLogs.csproj" />
     <ProjectReference Include="..\ECommerce.Domain\ECommerce.Domain.csproj" />
     <ProjectReference Include="..\ECommerce.Infra.IoC\ECommerce.Infra.IoC.csproj" />
+    <ProjectReference Include="..\ECommerce.Integracao.Domain\ECommerce.Integracao.Domain.csproj" />
   </ItemGroup>
 
 </Project>

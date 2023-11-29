@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.TopShelfService.Logs.Base
+﻿namespace ECommerce.Integracao.Domain.Logs.Base
 {
     public abstract class BaseLog
     {

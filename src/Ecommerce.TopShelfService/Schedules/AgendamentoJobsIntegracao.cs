@@ -1,17 +1,15 @@
 ﻿using Ecommerce.TopShelfService.Controllers;
 using Ecommerce.TopShelfService.Entities;
 using Ecommerce.TopShelfService.Jobs;
-using ECommerce.Domain.Interfaces.Services;
 using ECommerce.Infra.Data.EntityFramework.Contexts;
 using ECommerce.Infra.IoC;
+using ECommerce.Integracao.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Impl;
 using Serilog;
 using System.Collections.Specialized;
-using Ecommerce.TopShelfService.Logs;
-using ECommerce.ControleLogs;
 
 namespace Ecommerce.TopShelfService.Schedules
 
@@ -62,19 +60,20 @@ namespace Ecommerce.TopShelfService.Schedules
                 _intervaloExportacaoCategoriasEmMinutos = configuracaoServico.ParametrosServico.ScheduleExportacaoCategoriasEmMinutos;
 
             #region Teste
-            var services = ConfiguraServicos();
+            var services = ConfiguraServicos(configuracaoServico);
 
             #endregion
 
             _gerenciadorAgendamento.Start().Wait();
 
-            AgendamentoJobs(services);
+            AgendamentoJobs(services, configuracaoServico);
         }
 
-        private IServiceProvider ConfiguraServicos()
+        private IServiceProvider ConfiguraServicos(DadosConfiguracaoServico configuracaoServico)
         {
             var services = new ServiceCollection();
-            InjecaoDependencias.RegistraDependencias(services);
+            services.RegistraDependencias();
+            services.RegistraDependenciasIntegracaoTopShelf(configuracaoServico);
 
             string connectionString = @"Server=DESKTOP-OQ2HHAO\SQLEXPRESS2022;Database=ECommerce;User Id=sa;Password=saadmin; Integrated Security=True; trustServerCertificate=true";
 
@@ -96,10 +95,10 @@ namespace Ecommerce.TopShelfService.Schedules
             return services.BuildServiceProvider();
         }
 
-        private void AgendamentoJobs(IServiceProvider container)
+        private void AgendamentoJobs(IServiceProvider container, DadosConfiguracaoServico configuracaoServico)
         {
             ConfiguraJobExportacaoProdutos(container);
-            ConfiguraJobExportacaoCategorias(container);
+            ConfiguraJobExportacaoCategorias(container, configuracaoServico);
         }
 
         private void ConfiguraJobExportacaoProdutos(IServiceProvider container)
@@ -120,10 +119,11 @@ namespace Ecommerce.TopShelfService.Schedules
             _gerenciadorAgendamento.ScheduleJob(jobExportacaoProdutos, triggerExportacaoProdutos).Wait();
         }
 
-        private void ConfiguraJobExportacaoCategorias(IServiceProvider container)
+        private void ConfiguraJobExportacaoCategorias(IServiceProvider container, DadosConfiguracaoServico configuracaoServico)
         {
             var jobDataMap = new JobDataMap();
             jobDataMap.Put("container", container);
+            jobDataMap.Put("config", configuracaoServico);
 
             IJobDetail jobExportacaoCategorias = JobBuilder
                 .Create<JobExportacaoCategorias>()

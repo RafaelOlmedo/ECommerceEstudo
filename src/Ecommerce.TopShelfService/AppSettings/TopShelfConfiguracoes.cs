@@ -1,6 +1,6 @@
 ﻿using Ecommerce.TopShelfService.Entities;
-using Ecommerce.TopShelfService.Logs;
 using Ecommerce.TopShelfService.Schedules;
+using ECommerce.Integracao.Domain.Logs;
 using Serilog;
 using Serilog.Filters;
 using Topshelf;

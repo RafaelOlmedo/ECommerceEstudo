@@ -7,9 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ECommerce.Infra.IoC
 {
-    public class InjecaoDependencias
+    public static class InjecaoDependencias
     {
-        public static void RegistraDependencias(IServiceCollection services)
+        public static void RegistraDependencias(this IServiceCollection services)
         {
             services.AddTransient<ECommerceDataContext, ECommerceDataContext>();
 
@@ -18,6 +18,6 @@ namespace ECommerce.Infra.IoC
 
             services.AddTransient<IProdutoService, ProdutoService>();
             services.AddTransient<ICategoriaService, CategoriaService>();
-        }
+        }        
     }
 }

@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ECommerce.Domain\ECommerce.Domain.csproj" />
     <ProjectReference Include="..\ECommerce.Infra.Data.EntityFramework\ECommerce.Infra.Data.EntityFramework.csproj" />
+    <ProjectReference Include="..\ECommerce.Integracao.Domain\ECommerce.Integracao.Domain.csproj" />
   </ItemGroup>
 
 </Project>

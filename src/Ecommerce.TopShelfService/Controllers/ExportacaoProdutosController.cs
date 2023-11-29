@@ -1,5 +1,5 @@
-﻿using Ecommerce.TopShelfService.Logs;
-using ECommerce.Domain.Interfaces.Repositories;
+﻿using ECommerce.Domain.Interfaces.Repositories;
+using ECommerce.Integracao.Domain.Logs;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ecommerce.TopShelfService.Controllers
