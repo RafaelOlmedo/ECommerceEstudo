@@ -6,7 +6,6 @@ using ECommerce.Integracao.Domain.Interfaces.Services;
 using ECommerce.Integracao.Domain.Logs;
 using Flunt.Notifications;
 using Newtonsoft.Json;
-using System.Text.Json.Serialization;
 
 namespace ECommerce.Integracao.Domain.Services
 {
@@ -54,11 +53,10 @@ namespace ECommerce.Integracao.Domain.Services
 
             string categoriasJson = ConverteExportacaoCategoriaDtoEmJson(exportacaoCategoriasDto);
 
-            string nomeArquivo = $"ExportacaoCategoria_{DateTime.Now.ToString("yyyyMMdd")}";
-            string caminhoCompleto = $"{_configuracaoServico.ParametrosServico.PastaExportacaoCategorias}\\{nomeArquivo}.json";
-            _systemIOWrapper.GravaArquivo(categoriasJson, caminhoCompleto);
+            string caminhoCompletoComNomeArquivoSeraCriado = RealizaTratamentosParaControleDePastaENomeArquivoERetornaCaminhoCompletoArquivo();
+            _systemIOWrapper.GravaArquivo(categoriasJson, caminhoCompletoComNomeArquivoSeraCriado);
 
-            _exportacaoCategoriasLog.LogInformacao($"Realizada a exportação do arquivo com {exportacaoCategoriasDto.Count} categorias. Nome arquivo exportado {nomeArquivo}.");
+            _exportacaoCategoriasLog.LogInformacao($"Realizada a exportação do arquivo com {exportacaoCategoriasDto.Count} categorias. Arquivo exportado: {caminhoCompletoComNomeArquivoSeraCriado}.");
 
             return true;
         }
@@ -74,6 +72,29 @@ namespace ECommerce.Integracao.Domain.Services
                 notificacoes.Add(new Notification(string.Empty, $"O caminho '{caminhoConfiguradoExportacaoCategorias}' configurado para a exportação de categorias, não existe"));
 
             return notificacoes;
+        }
+
+        private string RealizaTratamentosParaControleDePastaENomeArquivoERetornaCaminhoCompletoArquivo()
+        {
+            string caminhoConfiguradoExportacaoCategorias =
+               _configuracaoServico.ParametrosServico.PastaExportacaoCategorias;
+
+            string caminhoComPastaDoDia = _systemIOWrapper.CasoNaoExistaCriaPastaComNomeDiaMesAno(caminhoConfiguradoExportacaoCategorias);
+
+            string nomeArquivoQueSeraExportado = GeraNomeArquivoQueSeraExportado(caminhoComPastaDoDia);
+            
+            return _systemIOWrapper.ConcatenarCaminho(caminhoComPastaDoDia, nomeArquivoQueSeraExportado);
+        }
+
+        private string GeraNomeArquivoQueSeraExportado(string caminhoExportacao)
+        {
+            int quantidadeArquivosNaPastaDeExportacaoParaDiaAtual = _systemIOWrapper.RecuperaQuantidadeDeArquivosEmUmaPasta(caminhoExportacao);
+            int sequencialNomeArquivo = ++quantidadeArquivosNaPastaDeExportacaoParaDiaAtual;
+
+            string dataAtualEmString = DateTime.Now.ToString("ddMMyyyy");
+            string nomeArquivoQueSeraExportado = $"{dataAtualEmString}_{sequencialNomeArquivo}.json";
+
+            return nomeArquivoQueSeraExportado;
         }
 
         private string ConverteExportacaoCategoriaDtoEmJson(List<ExportacaoCategoriaDto> exportacaoCategoriaDtos) =>
