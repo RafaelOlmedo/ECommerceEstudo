@@ -39,7 +39,7 @@ namespace ECommerce.Integracao.Domain.Services
                 return false;
             }
 
-            var produtos = _produtoRepository.RecuperaTodos();
+            var produtos = _produtoRepository.RecuperaTodos();            
 
             var exportacaoProdutosDto =
                 ExportacaoProdutoDto.ConverteListaDeProdutosEmListaDeExportacaoProdutosDto(produtos.ToList());

@@ -18,7 +18,7 @@ namespace ECommerce.Infra.Data.EntityFramework.Repositories
 
         public IEnumerable<Produto> RecuperaTodos()
         {
-            return _dbSetProdutos.AsNoTracking();
+            return _dbSetProdutos.Include(c => c.Categoria).AsNoTracking();
         }
 
         public Produto Adiciona(Produto produto)
