@@ -1,4 +1,5 @@
-﻿using Ecommerce.TopShelfService.Controllers;
+﻿using Ecommerce.TopShelfService.Constants;
+using Ecommerce.TopShelfService.Controllers;
 using Ecommerce.TopShelfService.Entities;
 using Ecommerce.TopShelfService.Jobs;
 using ECommerce.Infra.Data.EntityFramework.Contexts;
@@ -97,14 +98,15 @@ namespace Ecommerce.TopShelfService.Schedules
 
         private void AgendamentoJobs(IServiceProvider container, DadosConfiguracaoServico configuracaoServico)
         {
-            ConfiguraJobExportacaoProdutos(container);
+            ConfiguraJobExportacaoProdutos(container, configuracaoServico);
             ConfiguraJobExportacaoCategorias(container, configuracaoServico);
         }
 
-        private void ConfiguraJobExportacaoProdutos(IServiceProvider container)
+        private void ConfiguraJobExportacaoProdutos(IServiceProvider container, DadosConfiguracaoServico configuracaoServico)
         {
             var jobDataMap = new JobDataMap();
-            jobDataMap.Put("container", container);
+            jobDataMap.Put(ConfiguracoesJobConstantes.Container, container);
+            jobDataMap.Put(ConfiguracoesJobConstantes.ConfiguracoesServico, configuracaoServico);
 
             IJobDetail jobExportacaoProdutos = JobBuilder
                 .Create<JobExportacaoProdutos>()
@@ -122,8 +124,8 @@ namespace Ecommerce.TopShelfService.Schedules
         private void ConfiguraJobExportacaoCategorias(IServiceProvider container, DadosConfiguracaoServico configuracaoServico)
         {
             var jobDataMap = new JobDataMap();
-            jobDataMap.Put("container", container);
-            jobDataMap.Put("config", configuracaoServico);
+            jobDataMap.Put(ConfiguracoesJobConstantes.Container, container);
+            jobDataMap.Put(ConfiguracoesJobConstantes.ConfiguracoesServico, configuracaoServico);
 
             IJobDetail jobExportacaoCategorias = JobBuilder
                 .Create<JobExportacaoCategorias>()

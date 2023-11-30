@@ -1,4 +1,5 @@
-﻿using ECommerce.Domain.Interfaces.Repositories;
+﻿using ECommerce.Integracao.Domain.Entities;
+using ECommerce.Integracao.Domain.Interfaces.Services;
 using ECommerce.Integracao.Domain.Logs;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,11 +8,15 @@ namespace Ecommerce.TopShelfService.Controllers
     public class ExportacaoProdutosController : ExportacaoProdutosLog
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly ICategoriaRepository _categoriaRepository;
-        public ExportacaoProdutosController(IServiceProvider serviceProvider)
+        private readonly IExportacaoProdutosService _exportacaoProdutosService;
+        private readonly DadosConfiguracaoServico _dadosConfiguracaoServico;
+
+        public ExportacaoProdutosController(IServiceProvider serviceProvider,
+                                            DadosConfiguracaoServico dadosConfiguracaoServico)
         {
             _serviceProvider = serviceProvider;
-            _categoriaRepository = _serviceProvider.GetRequiredService<ICategoriaRepository>();
+            _exportacaoProdutosService = _serviceProvider.GetRequiredService<IExportacaoProdutosService>();
+            _dadosConfiguracaoServico = dadosConfiguracaoServico;
 
             IniciaProcesso();
         }
@@ -19,10 +24,8 @@ namespace Ecommerce.TopShelfService.Controllers
         private void IniciaProcesso()
         {
             LogInformacao("Iniciando processo de exportação de produtos.", true);
-            //var todasCategorias = _categoriaRepository.RecuperaTodos();
 
-            int totalCategorias = 10;
-            LogInformacao($"Foram encontradas {totalCategorias} cadastradas na base de dados");
+            _exportacaoProdutosService.RealizaExportacaoProdutosCadastradosEmArquivoJson();
 
             LogInformacao("Finalizando processo de exportação de produtos.", false, true);
         }    
