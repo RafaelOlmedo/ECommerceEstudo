@@ -7,17 +7,17 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ECommerce.Infra.IoC
 {
-    public class InjecaoDependencias
+    public static class InjecaoDependencias
     {
-        public static void RegistraDependencias(IServiceCollection services)
+        public static void RegistraDependencias(this IServiceCollection services)
         {
-            services.AddScoped<ECommerceDataContext, ECommerceDataContext>();
+            services.AddTransient<ECommerceDataContext, ECommerceDataContext>();
 
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
 
             services.AddTransient<IProdutoService, ProdutoService>();
             services.AddTransient<ICategoriaService, CategoriaService>();
-        }
+        }        
     }
 }

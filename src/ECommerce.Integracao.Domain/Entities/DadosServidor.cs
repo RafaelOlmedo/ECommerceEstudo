@@ -1,7 +1,6 @@
-﻿using ECommerce.Domain.Entities.Base;
-using Flunt.Validations;
+﻿using Flunt.Validations;
 
-namespace Ecommerce.TopShelfService.Entities.Configuracoes
+namespace ECommerce.Integracao.Domain.Entities
 {
     public class DadosServidor : BaseEntity
     {
@@ -27,7 +26,7 @@ namespace Ecommerce.TopShelfService.Entities.Configuracoes
         public string SenhaCriptografada { get; }
 
         public string RecuperaSenha() =>
-            string.IsNullOrEmpty(Senha) ? SenhaCriptografada : Senha;        
+            string.IsNullOrEmpty(Senha) ? SenhaCriptografada : Senha;
 
         public override void RealizaValidacoes()
         {

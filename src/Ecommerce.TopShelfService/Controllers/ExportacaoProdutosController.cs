@@ -1,33 +1,30 @@
-﻿using Ecommerce.TopShelfService.Logs;
-using ECommerce.Domain.Interfaces.Repositories;
-using ECommerce.Domain.Interfaces.Services;
+﻿using ECommerce.Domain.Interfaces.Repositories;
+using ECommerce.Integracao.Domain.Logs;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ecommerce.TopShelfService.Controllers
 {
-    public class ExportacaoProdutosController
+    public class ExportacaoProdutosController : ExportacaoProdutosLog
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ICategoriaRepository _categoriaRepository;
-        private readonly ILogService _logService;
         public ExportacaoProdutosController(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _categoriaRepository = _serviceProvider.GetRequiredService<ICategoriaRepository>();
-            _logService = _serviceProvider.GetRequiredService<ILogService>();
 
             IniciaProcesso();
         }
 
         private void IniciaProcesso()
         {
-            _logService.LogInformacao("Iniciando processo de exportação de produtos.", true);
-            var todasCategorias = _categoriaRepository.RecuperaTodos();
+            LogInformacao("Iniciando processo de exportação de produtos.", true);
+            //var todasCategorias = _categoriaRepository.RecuperaTodos();
 
-            int totalCategorias = todasCategorias.Count();
-            _logService.LogInformacao($"Foram encontradas {totalCategorias} cadastradas na base de dados");
+            int totalCategorias = 10;
+            LogInformacao($"Foram encontradas {totalCategorias} cadastradas na base de dados");
 
-            _logService.LogInformacao("Finalizando processo de exportação de produtos.", false, true);
+            LogInformacao("Finalizando processo de exportação de produtos.", false, true);
         }    
 
     }

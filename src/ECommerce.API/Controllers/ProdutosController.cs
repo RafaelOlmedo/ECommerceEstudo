@@ -35,8 +35,6 @@ namespace ECommerce.API.Controllers
         {
             try
             {
-                int inteiro = Convert.ToInt32("a");
-
                 var todosProdutos = _produtoRepository.RecuperaTodos();
 
                 if (!todosProdutos.Any())
