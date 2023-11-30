@@ -2,6 +2,6 @@
 {
     public interface IExportacaoCategoriasService
     {
-        void RealizaExportacaoCategoriasCadastradosEmArquivoJson();
+        bool RealizaExportacaoCategoriasCadastradosEmArquivoJson();
     }
 }
