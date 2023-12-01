@@ -9,9 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors();
 
-builder.Services.AddDbContext<ECommerceDataContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 // TODO: Possibilidade de melhoria: Incluir para que cada controller tenha um arquivo separado de log.
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
@@ -26,7 +23,8 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-InjecaoDependencias.RegistraDependencias(builder.Services);
+string stringConexao = builder.Configuration.GetConnectionString("DefaultConnection");
+InjecaoDependencias.RegistraDependencias(builder.Services, stringConexao);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

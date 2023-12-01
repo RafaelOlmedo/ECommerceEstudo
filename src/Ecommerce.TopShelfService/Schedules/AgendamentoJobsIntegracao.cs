@@ -72,14 +72,11 @@ namespace Ecommerce.TopShelfService.Schedules
 
         private IServiceProvider ConfiguraServicos(DadosConfiguracaoServico configuracaoServico)
         {
+            string connectionString = configuracaoServico.Servidor.RecuperaStringConexao();
+
             var services = new ServiceCollection();
-            services.RegistraDependencias();
+            services.RegistraDependencias(connectionString);
             services.RegistraDependenciasIntegracaoTopShelf(configuracaoServico);
-
-            string connectionString = @"Server=DESKTOP-OQ2HHAO\SQLEXPRESS2022;Database=ECommerce;User Id=sa;Password=saadmin; Integrated Security=True; trustServerCertificate=true";
-
-            // TODO: Tem que arrumar ainda.
-            services.AddDbContext<ECommerceDataContext>(options => options.UseSqlServer(connectionString));
 
             //// TODO: Depois ajustar para o log tem trabalhe com interfaces.
             //services.AddTransient<ILogService>(sp =>
@@ -91,7 +88,7 @@ namespace Ecommerce.TopShelfService.Schedules
             //        nomeArquivo: ExportacaoProdutosLog.NomeArquivo,
             //        tipoArquivo: ExportacaoProdutosLog.TipoArquivo
             //    );
-            //});
+            //}); 
 
             return services.BuildServiceProvider();
         }
