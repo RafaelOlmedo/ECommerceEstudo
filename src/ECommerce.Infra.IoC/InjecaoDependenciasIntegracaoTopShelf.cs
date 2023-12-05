@@ -15,6 +15,7 @@ namespace ECommerce.Infra.IoC
                                                                   DadosConfiguracaoServico configuracaoServico)
         {
             services.AddTransient<IExportacaoCategoriasService, ExportacaoCategoriasService>();
+            services.AddTransient<IExportacaoProdutosService, ExportacaoProdutosService>();
             services.AddTransient<ISystemIOWrapper, SystemIOWrapper>();
 
             services.AddSingleton(configuracaoServico);

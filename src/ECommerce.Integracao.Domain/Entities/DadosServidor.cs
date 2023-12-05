@@ -28,6 +28,9 @@ namespace ECommerce.Integracao.Domain.Entities
         public string RecuperaSenha() =>
             string.IsNullOrEmpty(Senha) ? SenhaCriptografada : Senha;
 
+        public string RecuperaStringConexao() =>
+            $@"Server={Nome};Database={BaseDeDados};User Id={Usuario};Password={RecuperaSenha()}; Integrated Security=True; trustServerCertificate=true";
+
         public override void RealizaValidacoes()
         {
             bool senhaNaoFoiPreenchida = string.IsNullOrEmpty(Senha) && string.IsNullOrEmpty(SenhaCriptografada);
