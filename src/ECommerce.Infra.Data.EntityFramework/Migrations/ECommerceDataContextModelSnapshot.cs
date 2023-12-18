@@ -46,7 +46,7 @@ namespace ECommerce.Infra.Data.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categoria");
+                    b.ToTable("Categoria", (string)null);
                 });
 
             modelBuilder.Entity("ECommerce.Domain.Entities.Produto", b =>
@@ -81,7 +81,7 @@ namespace ECommerce.Infra.Data.EntityFramework.Migrations
 
                     b.HasIndex("IdCategoria");
 
-                    b.ToTable("Produtos");
+                    b.ToTable("Produto", (string)null);
                 });
 
             modelBuilder.Entity("ECommerce.Domain.Entities.Produto", b =>
