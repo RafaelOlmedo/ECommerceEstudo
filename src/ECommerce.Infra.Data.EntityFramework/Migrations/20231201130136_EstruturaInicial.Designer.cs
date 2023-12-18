@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Infra.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(ECommerceDataContext))]
-    [Migration("20231113173440_VinculoProdutoCategoriaMigration")]
-    partial class VinculoProdutoCategoriaMigration
+    [Migration("20231201130136_EstruturaInicial")]
+    partial class EstruturaInicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,7 +49,7 @@ namespace ECommerce.Infra.Data.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categoria");
+                    b.ToTable("Categoria", (string)null);
                 });
 
             modelBuilder.Entity("ECommerce.Domain.Entities.Produto", b =>
@@ -84,7 +84,7 @@ namespace ECommerce.Infra.Data.EntityFramework.Migrations
 
                     b.HasIndex("IdCategoria");
 
-                    b.ToTable("Produtos");
+                    b.ToTable("Produto", (string)null);
                 });
 
             modelBuilder.Entity("ECommerce.Domain.Entities.Produto", b =>

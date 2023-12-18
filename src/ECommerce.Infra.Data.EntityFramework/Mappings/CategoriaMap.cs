@@ -9,6 +9,8 @@ namespace ECommerce.Infra.Data.EntityFramework.Mappings
     {
         public void Configure(EntityTypeBuilder<Categoria> builder)
         {
+            builder.ToTable(nameof(Categoria));
+
             builder
                 .HasKey(x => x.Id);
 

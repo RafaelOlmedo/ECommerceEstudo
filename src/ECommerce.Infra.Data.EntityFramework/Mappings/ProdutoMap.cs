@@ -8,7 +8,9 @@ namespace ECommerce.Infra.Data.EntityFramework.Mappings
     public class ProdutoMap : IEntityTypeConfiguration<Produto>
     {
         public void Configure(EntityTypeBuilder<Produto> builder)
-        {           
+        {
+            builder.ToTable(nameof(Produto));
+
             builder
                 .HasKey(x => x.Id);
 
